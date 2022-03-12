@@ -30,10 +30,15 @@ app.get('/userInfo',async (req,res)=>{
  const users=await User.find()
  res.json({users_list:users});
 })
-app.post('login',async(req,res)=>{
+app.post('/login',async(req,res)=>{
     const {username,password}=req.body;
     User.find({username:username,password:password},function(err,data){
-
+        if(err){
+            res.send({status:400,message:`User not found:- ${err}`});
+        }
+        else{
+            res.send({status:200,message:`User found`});
+        }
     })
 
 })
