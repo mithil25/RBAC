@@ -1,0 +1,16 @@
+{
+  "name": "rbac",
+  "version": "1.0.0",
+  "description": "Project by Dheeraj Akarsh Mithil Udit",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Dheeraj Akarsh Mithil Udit",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.6"
+  }
+}
