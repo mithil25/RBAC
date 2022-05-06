@@ -1,48 +1,74 @@
-const express = require("express"),
-  mongoose = require("mongoose"),
-  bodyParser = require("body-parser"),
-  User = require("./models/User"),
-  app = express(),
-  PORT = process.env.PORT || 3000;
-
-mongoose
-  .connect("mongodb://127.0.0.1:27017/RBAC", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const md5 = require("md5");
+const app = express();
+const cors = require("cors");
+require("dotenv").config();
+app.use(cors());
+app.use(
+  express.urlencoded({
+    extended: true,
   })
-  .then(() => console.log("Connected to Mongo.."))
-  .catch((err) => console.log("Error\n %s", err));
+);
+app.use(express.json());
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.get("/", (req, res) => {
-  res.json({ message: "Server running" });
-});
-app.post("/signup", async (req, res) => {
-  try {
-    const newUser = await new User(req.body);
-    await newUser.save();
-    res.send({ status: 200, message: "new User created successfully" });
-  } catch (err) {
-    res.send({ status: 400, message: `new User not create error:- ${err}` });
-  }
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  region: process.env.AWS_BUCKET_REGION,
 });
 
-app.get("/userInfo", async (req, res) => {
-  const users = await User.find();
-  res.json({ users_list: users });
+mongoose.connect(process.env.ATLAS);
+
+const userSchema = new mongoose.Schema({
+  firstName: String,
+  password: String,
 });
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  User.find({ username: username, password: password }, function (err, data) {
+
+const User = mongoose.model("User", userSchema);
+
+const postSchema = new mongoose.Schema({
+  imgURL: String,
+});
+
+const Post = mongoose.model("Post", postSchema);
+
+const upload = (name) =>
+  multer({
+    storage: multerS3({
+      s3,
+      bucket: process.env.AWS_BUCKET_NAME,
+      acl: "public-read",
+      metadata: function (req, file, cb) {
+        cb(null, { fieldName: file.fieldname });
+      },
+      key: function (req, file, cb) {
+        cb(null, name);
+      },
+      contentType: multerS3.AUTO_CONTENT_TYPE,
+    }),
+  });
+
+app.post("/upload", (req, res) => {
+  const fileName = `file-${Date.now()}`;
+  const uploadSingle = upload(fileName).single("imgFile");
+
+  uploadSingle(req, res, (err) => {
     if (err) {
-      res.send({ status: 400, message: `User not found:- ${err}` });
-    } else {
-      res.send({ status: 200, message: `User found` });
+      console.log(err);
     }
+    const newPost = new Post({
+      imgURL: req.file.location,
+    });
+    newPost.save();
+    res.send(true);
   });
 });
-app.listen(PORT, () => {
-  console.log("Server listening at port:-", PORT);
+
+app.listen(5000, () => {
+  console.log("Server is up on 5000");
 });
