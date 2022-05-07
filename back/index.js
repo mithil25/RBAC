@@ -75,24 +75,28 @@ app.post("/register", (req, res) => {
     password: md5(req.body.password),
   });
   newUser.save();
+  res.send("true");
 });
 
 app.post("/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  User.findOne({ email: email }, function (err, foundUser) {
-    if (err) {
-      console.log(err);
-      res.send("false");
-    } else {
-      if (foundUser.password === md5(password)) {
-        res.send("true");
+  try {
+    User.findOne({ email: email }, function (err, foundUser) {
+      if (foundUser) {
+        if (foundUser.password === md5(password)) {
+          res.send("true");
+        } else {
+          res.send("false");
+        }
       } else {
         res.send("false");
       }
-    }
-  });
+    });
+  } catch (error) {
+    throw "user does not exist";
+  }
 });
 
 app.listen(5000, () => {
