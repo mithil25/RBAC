@@ -25,7 +25,7 @@ const s3 = new aws.S3({
 mongoose.connect(process.env.ATLAS);
 
 const userSchema = new mongoose.Schema({
-  firstName: String,
+  email: String,
   password: String,
 });
 
@@ -66,6 +66,32 @@ app.post("/upload", (req, res) => {
     });
     newPost.save();
     res.send(true);
+  });
+});
+
+app.post("/register", (req, res) => {
+  const newUser = new User({
+    email: req.body.email,
+    password: md5(req.body.password),
+  });
+  newUser.save();
+});
+
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({ email: email }, function (err, foundUser) {
+    if (err) {
+      console.log(err);
+      res.send("false");
+    } else {
+      if (foundUser.password === md5(password)) {
+        res.send("true");
+      } else {
+        res.send("false");
+      }
+    }
   });
 });
 
