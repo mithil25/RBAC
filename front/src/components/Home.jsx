@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 function Home() {
   return (
-    <div>Home</div>
-  )
+    <div className="flex w-full justify-center">This is the Homepage.</div>
+  );
 }
 
-export default Home
+export default Home;
