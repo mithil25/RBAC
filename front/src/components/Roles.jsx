@@ -68,7 +68,8 @@ function Roles() {
   };
 
   const setRole = async (a, b) => {
-    if (accesscontrolsm != undefined) {
+    console.log(a,b)
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods.methods
           .setRole(a, b)
