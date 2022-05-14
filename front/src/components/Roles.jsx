@@ -3,11 +3,13 @@ import AccessControl from "./../abis/AccessControl.json";
 import AccessToken from "./../abis/AccessToken.json";
 import Web3 from "web3";
 
-function Roles({ setAccount, account }) {
+function Roles() {
   useEffect(() => {
     loadWeb3();
     LoadBlockchaindata();
   }, []);
+
+  const [account, setAccount] = useState();
 
   function handleLogout() {
     localStorage.removeItem("loggedIn");
@@ -17,6 +19,12 @@ function Roles({ setAccount, account }) {
 
   const [accesscontrolsm, setAccesscontrolsm] = useState();
   const [accesstokensm, setAccesstokensm] = useState();
+
+  const [userAddress, setUserAddress] = useState();
+  const [verifierAddress, setVerifierAddress] = useState();
+  const [roleName, setRoleName] = useState();
+  const [level, setLevel] = useState();
+  const [key, setKey] = useState();
 
   const loadWeb3 = async () => {
     if (window.ethereum) {
@@ -59,11 +67,11 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const setRole = async () => {
+  const setRole = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .setRole("0x123", "Chaprasi")
+          .setRole(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -74,11 +82,11 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const setVerifier = async () => {
+  const setVerifier = async (a) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .setVerifier("0x123")
+          .setVerifier(a)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -89,11 +97,11 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const sendToken = async (amount) => {
+  const sendToken = async (a, amount) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .sendToken("0x123", amount)
+          .sendToken(a, amount)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -104,11 +112,11 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const setParameter = async (x, y) => {
+  const setParameter = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .setParameter("Chaprasi", 2)
+          .setParameter(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -119,21 +127,21 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const verifyRole = async () => {
+  const verifyRole = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods.verifyRole("0x123", "Chaprasi").call();
+        accesscontrolsm.methods.methods.verifyRole(a, b).call();
       } catch (e) {
         console.log(e);
       }
     }
   };
 
-  const requestKey = async () => {
+  const requestKey = async (a) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .requestKey("0x123")
+          .requestKey(a)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -144,11 +152,11 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  const sendKey = async () => {
+  const sendKey = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
         accesscontrolsm.methods.methods
-          .setRole("0x123")
+          .setRole(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -159,7 +167,118 @@ function Roles({ setAccount, account }) {
     }
   };
 
-  return <div>Hello World</div>;
+  return (
+    <div>
+      <div>
+        <label className="font-semibold text-lg mx-2">User Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={userAddress}
+          onChange={(e) => setUserAddress(e.target.value)}
+        />
+        <label className="font-semibold text-lg mx-2">Role Name</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={roleName}
+          onChange={(e) => setRoleName(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => setRole(userAddress, roleName)}
+        >
+          Set Role
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">Verifier's Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={verifierAddress}
+          onChange={(e) => setVerifierAddress(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => setVerifier(verifierAddress)}
+        >
+          Set Verifier
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">Role Name</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={roleName}
+          onChange={(e) => setRoleName(e.target.value)}
+        />
+        <label className="font-semibold text-lg mx-2">Level</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={level}
+          onChange={(e) => setRole(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => setParameter(roleName, level)}
+        >
+          Set Parameter
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">User Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={userAddress}
+          onChange={(e) => setUserAddress(e.target.value)}
+        />
+        <label className="font-semibold text-lg mx-2">Role Name</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={roleName}
+          onChange={(e) => setRoleName(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => verifyRole(userAddress, roleName)}
+        >
+          Verify Role
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">User Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={userAddress}
+          onChange={(e) => setUserAddress(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => requestKey(userAddress)}
+        >
+          Request Key
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">Key</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={key}
+          onChange={(e) => setKey(e.target.value)}
+        />
+        <label className="font-semibold text-lg mx-2">User Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={userAddress}
+          onChange={(e) => setUserAddress(e.target.value)}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => sendKey(key, userAddress)}
+        >
+          Send Key
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default Roles;
