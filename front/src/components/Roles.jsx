@@ -71,7 +71,7 @@ function Roles() {
     console.log(a,b)
     if (accesscontrolsm !== undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .setRole(a, b)
           .send({ from: account })
           .on("transactionhash", () => {

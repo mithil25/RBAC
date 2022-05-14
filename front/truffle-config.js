@@ -22,6 +22,8 @@ const HDWalletProvider = require('@truffle/hdwallet-provider');
 const mnemonic = 'dignity net yellow elite muffin split rabbit chalk ball deal try inherit';
 
 module.exports = {
+  contracts_directory: "./src/contracts/",
+  contracts_build_directory: "./src/abis/",
   /**
    * Networks define how you connect to your ethereum client and let you set the
    * defaults web3 uses to send transactions. If you don't specify one truffle
