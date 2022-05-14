@@ -48,7 +48,7 @@ function Upload() {
   return (
     <div className="bg-white py-8 px-0 mt-16 flex justify-center">
       <form onSubmit={formik.handleSubmit} encType="multipart/form-data">
-        <div className="my-4 px-4 text-right">
+        {/* <div className="my-4 px-4 text-right">
           <label className="font-semibold text-lg mx-2">Title</label>
           <input
             className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
@@ -64,9 +64,9 @@ function Upload() {
           <p className="text-red-700 font-semibold text-right mr-8">
             {formik.errors.title}
           </p>
-        )}
+        )} */}
 
-        <div className="my-4 px-4 text-right">
+        {/* <div className="my-4 px-4 text-right">
           <label className="font-semibold text-lg mx-2">Content</label>
           <textarea
             className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
@@ -82,7 +82,7 @@ function Upload() {
           <p className="text-red-700 font-semibold text-right mr-8">
             {formik.errors.content}
           </p>
-        )}
+        )} */}
 
         <input
           type="file"

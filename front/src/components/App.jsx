@@ -10,6 +10,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Upload from "./Upload";
 import Home from "./Home";
+import FileViewer from "./FileViewer";
 
 function App() {
   function handleLogout() {
@@ -39,6 +40,9 @@ function App() {
             {localStorage.getItem("loggedIn") && (
               <>
                 <li className="">
+                  <Link to="/view">View</Link>
+                </li>
+                <li className="">
                   <Link to="/upload">Upload</Link>
                 </li>
                 <li className="">
@@ -58,6 +62,9 @@ function App() {
           </Route>
           <Route exact path="/upload">
             <Upload />
+          </Route>
+          <Route exact path="/view">
+            <FileViewer />
           </Route>
           <Route exact path="/">
             <Home />
