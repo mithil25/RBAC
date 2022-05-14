@@ -4,16 +4,16 @@ const bodyParser = require("body-parser");
 const md5 = require("md5");
 const app = express();
 const cors = require("cors");
-const rsa = require('node-rsa');
-const fs = require('fs');
+const rsa = require("node-rsa");
+const fs = require("fs");
 
-var publicKey =  new rsa();
+var publicKey = new rsa();
 var privateKey = new rsa();
 
-var public = fs.readFileSync('./Keys/public.pem',"utf8")
-var private = fs.readFileSync('./Keys/private.pem',"utf8") 
-publicKey.importKey(public)
-privateKey.importKey(private)
+var public = fs.readFileSync("./Keys/public.pem", "utf8");
+var private = fs.readFileSync("./Keys/private.pem", "utf8");
+publicKey.importKey(public);
+privateKey.importKey(private);
 require("dotenv").config();
 
 app.use(cors());
@@ -73,19 +73,21 @@ app.post("/upload", (req, res) => {
     if (err) {
       console.log(err);
     }
-    const encryptedLink = privateKey.encryptPrivate(req.file.location,'base64')
-    
+    const encryptedLink = privateKey.encryptPrivate(
+      req.file.location,
+      "base64"
+    );
+
     // console.log(encryptedLink)
     // // const decrypt = publicKey.decryptPublic(encryptedLink,'utf8');
     // console.log(decrypt)
-    
+
     const newPost = new Post({
       imgURL: encryptedLink,
     });
     newPost.save();
     res.send(encryptedLink);
   });
-
 });
 
 app.post("/register", (req, res) => {
@@ -97,21 +99,21 @@ app.post("/register", (req, res) => {
   res.send("true");
 });
 
-app.get('/decrypt',(req,res)=>{
-  Post.findOne(({id:'627fb9217b1d84fb15a5094e'},function(err,data){
-    if(err){
-      res.send("Error in Decrypting")
-      return
-    }
-    else
-    {
-      const hash=data.imgURL
-      const decrypted = publicKey.decryptPublic(hash,'utf8');
-      res.send(decrypted)
-    }
-    
-  }))  
-})
+app.get("/decrypt", (req, res) => {
+  Post.findOne(
+    ({ id: "627fb9217b1d84fb15a5094e" },
+    function (err, data) {
+      if (err) {
+        res.send("Error in Decrypting");
+        return;
+      } else {
+        const hash = data.imgURL;
+        const decrypted = publicKey.decryptPublic(hash, "utf8");
+        res.send(decrypted);
+      }
+    })
+  );
+});
 
 app.post("/login", (req, res) => {
   const email = req.body.email;
