@@ -77,16 +77,10 @@ app.post("/upload", (req, res) => {
       req.file.location,
       "base64"
     );
-
-    // console.log(encryptedLink)
-    // // const decrypt = publicKey.decryptPublic(encryptedLink,'utf8');
-    // console.log(decrypt)
-
     const newPost = new Post({
       imgURL: encryptedLink,
     });
     newPost.save();
-    res.send(encryptedLink);
   });
 });
 

@@ -2,8 +2,8 @@ import React from "react";
 
 function Home() {
   return (
-    <>
-      <div className="flex flex-col justify-center w-full">
+    <div className="max-h-screen">
+      {/* <div className="flex flex-col justify-center w-full">
         <div className="flex justify-center w-full">
           <button className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8">
             Generate Key
@@ -19,8 +19,12 @@ function Home() {
             Send Key
           </button>
         </div>
-      </div>
-    </>
+      </div> */}
+      <img
+        src="https://media-exp1.licdn.com/dms/image/C4D1BAQERSNsOMfnzcQ/company-background_10000/0/1598720688382?e=2147483647&v=beta&t=c-V2AYnwfI41546_vR9DCxQZeHufB6fP00kgS9A-gi8"
+        alt=""
+      />
+    </div>
   );
 }
 

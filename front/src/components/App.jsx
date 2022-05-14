@@ -11,6 +11,7 @@ import Register from "./Register";
 import Upload from "./Upload";
 import Home from "./Home";
 import FileViewer from "./FileViewer";
+import Roles from "./Roles";
 
 function App() {
   function handleLogout() {
@@ -24,7 +25,7 @@ function App() {
       <div>
         <nav className="bg-white h-20 flex items-center">
           <Link to="/" className="text-4xl px-16">
-            Blog
+            RBAC
           </Link>
           <ul className="flex space-x-6 pr-6 text-lg justify-end w-full">
             {!localStorage.getItem("loggedIn") && (
@@ -65,6 +66,9 @@ function App() {
           </Route>
           <Route exact path="/view">
             <FileViewer />
+          </Route>
+          <Route exact path="/roles">
+            <Roles />
           </Route>
           <Route exact path="/">
             <Home />
