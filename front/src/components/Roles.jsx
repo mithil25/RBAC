@@ -289,7 +289,7 @@ function Roles() {
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => sendKey(sendObj.i, sendObj.j)}
+          onClick={() => sendToken(sendObj.k, sendObj.l)}
         >
           Send Token
         </button>
