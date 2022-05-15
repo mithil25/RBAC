@@ -95,10 +95,10 @@ function Roles() {
   };
 
   const sendToken = async (a, b) => {
-    if (accesscontrolsm !== undefined) {
+    if (accesstokensm !== undefined) {
       try {
-        accesscontrolsm.methods
-          .sendToken(a, b)
+        accesstokensm.methods
+          .mint(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
