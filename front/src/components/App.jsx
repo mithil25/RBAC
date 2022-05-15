@@ -41,6 +41,9 @@ function App() {
             {localStorage.getItem("loggedIn") && (
               <>
                 <li className="">
+                  <Link to="/roles">Roles</Link>
+                </li>
+                <li className="">
                   <Link to="/view">View</Link>
                 </li>
                 <li className="">
