@@ -94,11 +94,11 @@ function Roles() {
     }
   };
 
-  const sendToken = async (a, amount) => {
+  const sendToken = async (a, b) => {
     if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
-          .sendToken(a, amount)
+          .sendToken(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -181,10 +181,7 @@ function Roles() {
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => {
-            setRole(sendObj.a, sendObj.b);
-            console.log(sendObj);
-          }}
+          onClick={() => setRole(sendObj.a, sendObj.b)}
         >
           Set Role
         </button>
@@ -275,6 +272,26 @@ function Roles() {
           onClick={() => sendKey(sendObj.i, sendObj.j)}
         >
           Send Key
+        </button>
+      </div>
+      <div>
+        <label className="font-semibold text-lg mx-2">User Address</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={sendObj.k}
+          onChange={(e) => setSendObj({ ...sendObj, k: e.target.value })}
+        />
+        <label className="font-semibold text-lg mx-2">Amount</label>
+        <input
+          className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
+          value={sendObj.l}
+          onChange={(e) => setSendObj({ ...sendObj, l: e.target.value })}
+        />
+        <button
+          className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
+          onClick={() => sendKey(sendObj.i, sendObj.j)}
+        >
+          Send Token
         </button>
       </div>
     </div>
