@@ -20,11 +20,13 @@ function Roles() {
   const [accesscontrolsm, setAccesscontrolsm] = useState();
   const [accesstokensm, setAccesstokensm] = useState();
 
-  const [userAddress, setUserAddress] = useState();
-  const [verifierAddress, setVerifierAddress] = useState();
-  const [roleName, setRoleName] = useState();
-  const [level, setLevel] = useState();
-  const [key, setKey] = useState();
+  // const [userAddress, setUserAddress] = useState();
+  // const [verifierAddress, setVerifierAddress] = useState();
+  // const [roleName, setRoleName] = useState();
+  // const [level, setLevel] = useState();
+  // const [key, setKey] = useState();
+
+  const [sendObj, setSendObj] = useState({});
 
   const loadWeb3 = async () => {
     if (window.ethereum) {
@@ -68,7 +70,7 @@ function Roles() {
   };
 
   const setRole = async (a, b) => {
-    console.log(a,b)
+    console.log(a, b);
     if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
@@ -86,7 +88,7 @@ function Roles() {
   const setVerifier = async (a) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .setVerifier(a)
           .send({ from: account })
           .on("transactionhash", () => {
@@ -101,7 +103,7 @@ function Roles() {
   const sendToken = async (a, amount) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .sendToken(a, amount)
           .send({ from: account })
           .on("transactionhash", () => {
@@ -116,7 +118,7 @@ function Roles() {
   const setParameter = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .setParameter(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
@@ -131,7 +133,7 @@ function Roles() {
   const verifyRole = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods.verifyRole(a, b).call();
+        accesscontrolsm.methods.verifyRole(a, b).call();
       } catch (e) {
         console.log(e);
       }
@@ -141,7 +143,7 @@ function Roles() {
   const requestKey = async (a) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .requestKey(a)
           .send({ from: account })
           .on("transactionhash", () => {
@@ -156,7 +158,7 @@ function Roles() {
   const sendKey = async (a, b) => {
     if (accesscontrolsm != undefined) {
       try {
-        accesscontrolsm.methods.methods
+        accesscontrolsm.methods
           .setRole(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
@@ -174,18 +176,21 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">User Address</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={userAddress}
-          onChange={(e) => setUserAddress(e.target.value)}
+          value={sendObj.a}
+          onChange={(e) => setSendObj({ ...sendObj, a: e.target.value })}
         />
         <label className="font-semibold text-lg mx-2">Role Name</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={roleName}
-          onChange={(e) => setRoleName(e.target.value)}
+          value={sendObj.b}
+          onChange={(e) => setSendObj({ ...sendObj, b: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => setRole(userAddress, roleName)}
+          onClick={() => {
+            setRole(sendObj.a, sendObj.b);
+            console.log(sendObj);
+          }}
         >
           Set Role
         </button>
@@ -194,12 +199,12 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">Verifier's Address</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={verifierAddress}
-          onChange={(e) => setVerifierAddress(e.target.value)}
+          value={sendObj.c}
+          onChange={(e) => setSendObj({ ...sendObj, c: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => setVerifier(verifierAddress)}
+          onClick={() => setVerifier(sendObj.c)}
         >
           Set Verifier
         </button>
@@ -208,18 +213,18 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">Role Name</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={roleName}
-          onChange={(e) => setRoleName(e.target.value)}
+          value={sendObj.d}
+          onChange={(e) => setSendObj({ ...sendObj, d: e.target.value })}
         />
         <label className="font-semibold text-lg mx-2">Level</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={level}
-          onChange={(e) => setRole(e.target.value)}
+          value={sendObj.e}
+          onChange={(e) => setSendObj({ ...sendObj, e: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => setParameter(roleName, level)}
+          onClick={() => setParameter(sendObj.d, sendObj.e)}
         >
           Set Parameter
         </button>
@@ -228,18 +233,18 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">User Address</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={userAddress}
-          onChange={(e) => setUserAddress(e.target.value)}
+          value={sendObj.f}
+          onChange={(e) => setSendObj({ ...sendObj, f: e.target.value })}
         />
         <label className="font-semibold text-lg mx-2">Role Name</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={roleName}
-          onChange={(e) => setRoleName(e.target.value)}
+          value={sendObj.g}
+          onChange={(e) => setSendObj({ ...sendObj, g: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => verifyRole(userAddress, roleName)}
+          onClick={() => verifyRole(sendObj.f, sendObj.g)}
         >
           Verify Role
         </button>
@@ -248,12 +253,12 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">User Address</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={userAddress}
-          onChange={(e) => setUserAddress(e.target.value)}
+          value={sendObj.h}
+          onChange={(e) => setSendObj({ ...sendObj, h: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => requestKey(userAddress)}
+          onClick={() => requestKey(sendObj.h)}
         >
           Request Key
         </button>
@@ -262,18 +267,18 @@ function Roles() {
         <label className="font-semibold text-lg mx-2">Key</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={key}
-          onChange={(e) => setKey(e.target.value)}
+          value={sendObj.i}
+          onChange={(e) => setSendObj({ ...sendObj, i: e.target.value })}
         />
         <label className="font-semibold text-lg mx-2">User Address</label>
         <input
           className="shadow border rounded w-96 py-2 px-3 inline-flex mt-2 mx-2"
-          value={userAddress}
-          onChange={(e) => setUserAddress(e.target.value)}
+          value={sendObj.j}
+          onChange={(e) => setSendObj({ ...sendObj, j: e.target.value })}
         />
         <button
           className="bg-gray-600 text-white font-semibold px-6 py-3 mt-4 border-2 rounded-md mx-8"
-          onClick={() => sendKey(key, userAddress)}
+          onClick={() => sendKey(sendObj.i, sendObj.j)}
         >
           Send Key
         </button>
