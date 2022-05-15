@@ -72,6 +72,7 @@ app.post("/upload", (req, res) => {
   uploadSingle(req, res, (err) => {
     if (err) {
       console.log(err);
+      res.send({status:'failure'});
     }
     const encryptedLink = privateKey.encryptPrivate(
       req.file.location,
@@ -82,6 +83,7 @@ app.post("/upload", (req, res) => {
     });
     newPost.save();
   });
+  res.send({status:'success'});
 });
 
 app.post("/register", (req, res) => {

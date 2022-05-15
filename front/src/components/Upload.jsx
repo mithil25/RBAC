@@ -3,33 +3,50 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { Redirect, useHistory } from "react-router";
 
+import { ToastContainer,toast } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
 function Upload() {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
       imgFile: "",
     },
-    onSubmit: (values) => {
+    onSubmit:  async (values) => {
       let data = new FormData();
       for (let value in values) {
         data.append(value, values[value]);
       }
-
-      axios
+      console.log(data)
+      if(data !== {}){
+        axios
         .post("http://localhost:5000/upload", data, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then(function (response) {
-          console.log(response.data);
-          if (response.data === true) {
+        .then(async function (response) {
+          const {status}=response.data
+          if (status === 'success') {
+            toast.success('successfully uploaded')
+            await delay(3000);
             history.push("/");
           }
+
         })
         .catch(function (error) {
-          console.log(error);
+          toast.error('Failed To Upload Try Again!')
         });
+      }
+      else
+      {
+        toast.error('Upload File')
+        return;
+      }
+        
     },
   });
 
@@ -56,6 +73,7 @@ function Upload() {
             Upload
           </button>
         </div>
+        <ToastContainer />
       </form>
     </div>
   );
