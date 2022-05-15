@@ -20,12 +20,6 @@ function Roles() {
   const [accesscontrolsm, setAccesscontrolsm] = useState();
   const [accesstokensm, setAccesstokensm] = useState();
 
-  // const [userAddress, setUserAddress] = useState();
-  // const [verifierAddress, setVerifierAddress] = useState();
-  // const [roleName, setRoleName] = useState();
-  // const [level, setLevel] = useState();
-  // const [key, setKey] = useState();
-
   const [sendObj, setSendObj] = useState({});
 
   const loadWeb3 = async () => {
