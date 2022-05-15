@@ -80,7 +80,7 @@ function Roles() {
   };
 
   const setVerifier = async (a) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
           .setVerifier(a)
@@ -95,7 +95,7 @@ function Roles() {
   };
 
   const sendToken = async (a, amount) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
           .sendToken(a, amount)
@@ -110,10 +110,10 @@ function Roles() {
   };
 
   const setParameter = async (a, b) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
-          .setParameter(a, b)
+          .setParameters(a, b)
           .send({ from: account })
           .on("transactionhash", () => {
             console.log("successfull");
@@ -125,7 +125,7 @@ function Roles() {
   };
 
   const verifyRole = async (a, b) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods.verifyRole(a, b).call();
       } catch (e) {
@@ -135,7 +135,7 @@ function Roles() {
   };
 
   const requestKey = async (a) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
           .requestKey(a)
@@ -150,7 +150,7 @@ function Roles() {
   };
 
   const sendKey = async (a, b) => {
-    if (accesscontrolsm != undefined) {
+    if (accesscontrolsm !== undefined) {
       try {
         accesscontrolsm.methods
           .setRole(a, b)
